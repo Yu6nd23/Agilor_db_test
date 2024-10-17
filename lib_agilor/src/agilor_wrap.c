@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////
 /////////////////////////// Agilor Connect C API ///////////////////////////
 //////////////////////////////////////////////////////////////////////////
-//
+
 int32_t c_Agcn_Startup(uint64_t thread_id, agibool through_firewall) {
     int32_t Startup_result = Agcn_Startup(thread_id, through_firewall);
     switch(Startup_result){
@@ -668,6 +668,8 @@ printf("-----------c_Agpt_SetPointValue成功调用-----------");
 ///////////////////////////////////////////////
 /////////////New function//////////////////
 /////////////////////////////////////////////
+
+//该函数将ucs_pt_t转成agilor_point_t
 agilor_point_t ucsptToAgilorPt(ucs_pt_t* p){
     agilor_point_t pt = {};
     pt.id = p->id;
@@ -676,17 +678,16 @@ agilor_point_t ucsptToAgilorPt(ucs_pt_t* p){
     strncpy(pt.descriptor, p->descrip, sizeof(p->descrip));
     pt.descriptor[sizeof(p->descrip) - 1] = '\0';  
     pt.timedate = p->ts;
-
     //暂时赋值测试  后从dpoint拿
     strncpy(pt.point_source, "DV3", sizeof(pt.point_source) - 1);
     pt.point_source[sizeof(pt.point_source) - 1] = '\0';
     strncpy(pt.source_tag, "testDev", sizeof(pt.source_tag) - 1);
-    pt.source_tag[sizeof(pt.source_tag) - 1] = '\0';  // 确保以 null 终止符结尾
+    pt.source_tag[sizeof(pt.source_tag) - 1] = '\0';  
    
     return pt;
 }
 
-
+//该函数将ucs_pt_t转成agilor_value_t
 agilor_value_t ucsptToAgilorValue(ucs_pt_t* p){
     agilor_value_t value = {};
     value.timedate = p->ts;
@@ -694,7 +695,8 @@ agilor_value_t ucsptToAgilorValue(ucs_pt_t* p){
     return value;
 }
 
-// 获取服务器名    PS.通过这种方式获取服务器名会报错 并且c_Agcn_ServerInfo函数获取信息，打印的server_name与真实值不一致
+//该函数调用c_Agcn_ServerInfo（Agcn_ServerInfo函数的封装函数）用于获取服务器名
+//PS.通过这种方式获取服务器名会报错 并且c_Agcn_ServerInfo函数获取信息，打印出的server_name与真实值不一致
     void getServer(char* server){
     agilor_serverinfo_t server_info ={};
     int32_t server_id=0;
@@ -704,6 +706,7 @@ agilor_value_t ucsptToAgilorValue(ucs_pt_t* p){
     }
 }
 
+//添加一个新的点位
 void agilor_ucs_pt_create(ucs_pt_t* p) {
     agilor_point_t pt = ucsptToAgilorPt(p);
     char server[16];  
@@ -711,14 +714,15 @@ void agilor_ucs_pt_create(ucs_pt_t* p) {
     c_Agpt_AddPoint(server, pt,overwrite);
 printf("--------Agpt_AddPoint调用结束--------\n");
 }
-
+//删除点位
 void agilor_ucs_pt_drop(ucs_pt_t* p) {
     agilor_serverinfo_t server_info ={};
     char server[16];  
     getServer(server);
     c_Agpt_RemovePoint(server, p->id);
-
 }
+
+//插入点值数据
 void agilor_ucs_pt_insert(ucs_pt_t* p) {
     char server[16];  
     getServer(server);
