@@ -3,7 +3,7 @@
 -----主要是在数据传入数据库之前的拆分操作，以及从数据库查询到数据的拼接数据等一系列操作
 ###  2.lib_agilor/src/agilor_wrap.c 
 -----封装函数：该文件包含了大部分安捷原数据库操作函数的封装。
------新增功能模块：包含了一些根据需求新添加的功能函数。
+-----新增功能模块：包含了一些根据需求新添加的功能函数（都在agilor_wrap.c中NewFun注释处）。
 -----数据类型转换：由于传入的数据是ucs_pt_t类型（定义见agilor_wrap.h），因此还实现了数据类型转换函数如ucsptToAgilorPt和ucsptToAgilorValue，以便与Agilor数据库兼容。
 ###  3.lib_agilor/src/test_con.c
 -----功能测试代码
