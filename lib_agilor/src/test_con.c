@@ -19,7 +19,7 @@ int main() {
 	   const char* password = "123";
 	   int port = 3955; 
 
-	   //尝试连接数据库
+	   //连接数据库
 	 int32_t connectResult = c_Agcn_Connect(server, host_addr, username, password, port);
 
 
