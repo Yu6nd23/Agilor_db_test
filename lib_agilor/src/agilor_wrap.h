@@ -60,8 +60,9 @@ extern "C" {
 //////////////////////////////////////////////
 ////////////Add New Funtion //////////////
 //////////////////////////////////////////////
-    agilor_point_t ucsptToAgilorPt(ucs_pt_t* p);//ucs_pt_t转换
-    void getServer(char* server);
+    agilor_point_t ucsptToAgilorPt(ucs_pt_t* p);//ucs_pt_t转成agilor_point_t
+    agilor_value_t ucsptToAgilorValue(ucs_pt_t* p);//ucs_pt_t转成agilor_value_t
+    void getServer(char* server);//获取服务器名称
     void agilor_ucs_pt_create(ucs_pt_t* p); //创建一个ucs点位
     void agilor_ucs_pt_drop(ucs_pt_t* p); //删除一个ucs点位
     void agilor_ucs_pt_insert(ucs_pt_t* p); //插入一个ucs点位值
